@@ -2,8 +2,6 @@
 
 基于 RAG（检索增强生成）技术的私有文档问答系统。上传文档 → 向量化检索 → 基于文档内容的智能问答。
 
-**2026 蓝山工作室前端组暑期考核 · 选题1：智能文档助手系统**
-
 ## 技术栈
 
 | 层 | 技术 |
@@ -199,7 +197,7 @@ RAG/
 
 ### 前端（client/）— 用户编写 + AI 指导
 
-前端代码全部由我自己编写，Claude 以"只讲解不写代码"的方式提供指导：
+前端代码由我自己编写，Claude 以"只讲解不写代码"的方式提供指导：
 
 - **架构设计**：Claude 讲解了 Redux Toolkit 的分层结构（store → slice → async thunk → UI）、React Router 路由守卫模式、SSE 流式读取的 ReadableStream 方案
 - **概念讲解**：Claude 解释了 `useEffect` 依赖数组、Redux `extraReducers` 监听跨 slice action、Tailwind CSS 的 `absolute` / `h-full` 链条等核心概念
