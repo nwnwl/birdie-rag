@@ -1,10 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
-import Button from '../../ui/Button';
-import { useEffect, useRef, useState } from 'react';
-import { get, upload } from './fileSlice';
-import FileItem from './FileItem';
-import Toast from '../../ui/Toast/Toast';
-import { addToast } from '../../ui/Toast/toastSlice';
+import { useDispatch, useSelector } from "react-redux";
+import Button from "../../ui/Button";
+import { useEffect, useRef, useState } from "react";
+import { get, upload } from "./fileSlice";
+import FileItem from "./FileItem";
+import Toast from "../../ui/Toast/Toast";
+import { addToast } from "../../ui/Toast/toastSlice";
 
 function File() {
   const [fileError, setFileError] = useState(null);
@@ -25,9 +25,9 @@ function File() {
   async function handlerefresh() {
     try {
       await dispatch(get(token)).unwrap();
-      dispatch(addToast({ type: 'success', message: '刷新成功' }));
+      dispatch(addToast({ type: "success", message: "刷新成功" }));
     } catch (err) {
-      dispatch(addToast({ type: 'error', message: '刷新失败' }));
+      dispatch(addToast({ type: "error", message: "刷新失败" }));
       setFileError(err.message);
     }
   }
@@ -38,7 +38,7 @@ function File() {
 
       const timer = setInterval(async () => {
         const files = await dispatch(get(token)).unwrap();
-        const fileProcessing = files.some((f) => f.status === 'processing');
+        const fileProcessing = files.some((f) => f.status === "processing");
 
         if (!fileProcessing) {
           return clearInterval(timer);
@@ -67,13 +67,14 @@ function File() {
             ⚙️文档管理
           </h1>
           <p className="font-family text-black/60">
-            上传文档进行向量化处理， 支持PDF、TXT、MD、DOCX、DOC格式 (不超过 20MB)
+            上传文档进行向量化处理， 支持PDF、TXT、MD、DOCX、DOC格式 (不超过
+            20MB)
           </p>
         </div>
 
         <div className="bg-[#fbf7f4] rounded-2xl py-5 pl-2  shadow-md">
           <h2 className="font-family md:text-2xl text-xl  text-[#6c6e5c] flex gap-4  items-center pb-4">
-            <i class="ml-2 bi bi-upload"></i>
+            <i className="ml-2 bi bi-upload"></i>
             上传文档
           </h2>
 
@@ -92,8 +93,11 @@ function File() {
             />
           </div>
 
-          <Button type="selectFile" onClick={() => fileUploadRef.current.click()}>
-            <i class="bi bi-cloud-upload inline mr-2"></i>
+          <Button
+            type="selectFile"
+            onClick={() => fileUploadRef.current.click()}
+          >
+            <i className="bi bi-cloud-upload inline mr-2"></i>
             选择文件
           </Button>
         </div>

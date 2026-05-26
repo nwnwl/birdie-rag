@@ -1,24 +1,25 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { lazy, useEffect } from 'react';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { lazy, useEffect } from "react";
 
-import AppLayout from './ui/AppLayout.jsx';
-import { LazyLoad } from './utils/LazyLoad.jsx';
-import User from './features/user/User.jsx';
-import { fetchCurrentUser } from './features/user/userSlice.js';
-import { useDispatch, useSelector } from 'react-redux';
-import ProtectedRoute from './ui/ProtectedRoute.jsx';
-import ErrorPage from './ui/ErrorPage.jsx';
+import AppLayout from "./ui/AppLayout.jsx";
+import { LazyLoad } from "./utils/LazyLoad.jsx";
+import { fetchCurrentUser } from "./features/user/userSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import ProtectedRoute from "./ui/ProtectedRoute.jsx";
+import ErrorPage from "./ui/ErrorPage.jsx";
 
-const Home = lazy(() => import('./ui/Home.jsx'));
-const Chat = lazy(() => import('./features/chat/Chat.jsx'));
-const File = lazy(() => import('./features/file/File.jsx'));
+const Home = lazy(() => import("./ui/Home.jsx"));
+const Chat = lazy(() => import("./features/chat/Chat.jsx"));
+const File = lazy(() => import("./features/file/File.jsx"));
+const User = lazy(() => import("./features/user/User.jsx"));
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
-        path: '/',
+        path: "/",
         element: (
           <LazyLoad>
             <Home />
@@ -26,19 +27,19 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: '/user',
+        path: "/user",
         element: (
           <LazyLoad>
             <User />
           </LazyLoad>
         ),
       },
-      { path: '*', element: <ErrorPage /> },
+      { path: "*", element: <ErrorPage /> },
       {
         element: <ProtectedRoute />,
         children: [
           {
-            path: '/chat',
+            path: "/chat",
             element: (
               <LazyLoad>
                 <Chat />
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: '/file',
+            path: "/file",
             element: (
               <LazyLoad>
                 <File />
