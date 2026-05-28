@@ -36,11 +36,11 @@ RAG/
 │   │   ├── services/
 │   │   │   ├── apiUser.js     # 登录/注册 API 调用
 │   │   │   ├── apiFile.js     # 文档上传/列表/删除/重命名 API
-│   │   │   ├── apiChat.js     # 聊天 SSE 流式 API（ReadableStream + rAF token节流）
+│   │   │   ├── apiChat.js     # 聊天 SSE 流式 API（AbortController并发控制 + ReadableStream + rAF token节流）
 │   │   │   └── apiHistory.js  # 聊天历史 GET/DELETE API
 │   │   ├── features/
 │   │   │   ├── user/          # userSlice.js, User.jsx（登录+注册合并页面, toggle切换）
-│   │   │   ├── chat/          # Chat.jsx, chatSlice.js（流式渲染 + 自动滚动 + localStorage持久化）
+│   │   │   ├── chat/          # Chat.jsx, chatSlice.js（流式渲染 + 自动滚动 + AbortController防并发竞争）
 │   │   │   ├── file/          # File.jsx, FileItem.jsx, fileSlice.js
 │   │   │   └── history/       # History.jsx, HistoryItem.jsx, historySlice.js
 │   │   ├── ui/
@@ -95,6 +95,7 @@ RAG/
 - [x] 历史删除功能（DELETE /api/chat/history/:id + 确认弹窗 + chat区联动清空）
 - [x] 全项目响应式适配（mobile-first, sm/md/lg/xl 四层断点），所有页面已适配
 - [x] README.md（含 AI 使用说明、技术栈、核心流程、API 文档）
+- [x] Prettier + prettier-plugin-tailwindcss（保存时 class 自动排序）
 
 ## 运行命令
 
@@ -115,4 +116,5 @@ npm run dev      # vite → http://localhost:5173
 - **向量存储**: 使用 MemoryVectorStore（内存向量库），启动时从 document_chunks 表重建，重启丢失内存数据但不丢失持久化数据
 - **API Key**: 通过 .env 文件加载（DEEPSEEK_API_KEY, EMBEDDING_API_KEY），gitignore 已排除
 - **前端代理**: Vite 开发服务器将 /api 和 /uploads 代理到后端 3001 端口，避免跨域问题
-- **样式**: TailwindCSS v4 语法（`@import 'tailwindcss'` + `@theme`），注意与 v3 不同（无 tailwind.config.js）
+- **样式**: TailwindCSS v4 语法（`@import 'tailwindcss'` + `@theme`），注意与 v3 不同（无 tailwind.config.js）。使用 Prettier + prettier-plugin-tailwindcss 自动排序 class
+- **并发控制**: 流式回答使用 AbortController 防止竞态——新请求/加载历史时先 abort 旧流，旧流的 AbortError 在 chatSlice 中被静默忽略，避免 token 泄漏污染

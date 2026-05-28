@@ -19,7 +19,7 @@ function FileItem({ file }) {
 
   let fmt = (
     <i
-      className={`bi bi-filetype-${format} text-3xl text-[#71815b] bg-white rounded-md p-1`}
+      className={`bi bi-filetype-${format} rounded-md bg-white p-1 text-3xl text-[#71815b]`}
       aria-hidden="true"
     ></i>
   );
@@ -45,6 +45,7 @@ function FileItem({ file }) {
     }
   }
 
+  // 编辑模式光标末尾自动出现
   useEffect(() => {
     const el = inputRef.current;
     if (!el) return;
@@ -58,22 +59,22 @@ function FileItem({ file }) {
   return (
     <>
       {delConfirm && (
-        <div className="absolute bg-white/40   h-full w-full z-50 flex justify-center items-center inset-0 backdrop-blur-md">
-          <div className="bg-white lg:px-30 lg:py-30 md:px-15 md:py-20 px-15 py-10 -translate-4 shadow-2xl rounded-3xl text-center flex flex-col sm:gap-8 gap-4">
+        <div className="absolute inset-0 z-50 flex h-full w-full items-center justify-center bg-white/40 backdrop-blur-md">
+          <div className="flex -translate-4 flex-col gap-4 rounded-3xl bg-white px-15 py-10 text-center shadow-2xl sm:gap-8 md:px-15 md:py-20 lg:px-30 lg:py-30">
             <img
               src="/pfp2.png"
               alt="bird pfp"
-              className="lg:h-30 lg:w-30 h-20 w-20 lg:translate-x-16 md:translate-x-16 translate-x-8"
+              className="h-20 w-20 translate-x-8 md:translate-x-16 lg:h-30 lg:w-30 lg:translate-x-16"
             />
 
-            <div className="font-family  ">
+            <div className="font-family">
               <p className="text-2xl text-black/90">删除</p>
-              <p className="text-xl text-black/60 translate-x-2">
+              <p className="translate-x-2 text-xl text-black/60">
                 确定删除文档吗？
               </p>
             </div>
 
-            <div className="flex flex-col md:flex-row sm:gap-6 gap-4">
+            <div className="flex flex-col gap-4 sm:gap-6 md:flex-row">
               <Button type="confirm" onClick={() => handleDelete()}>
                 删除
               </Button>
@@ -86,13 +87,13 @@ function FileItem({ file }) {
       )}
 
       {isEditing && (
-        <div className="font-family text-black/60 bg-[#ebefeb] w-fit pr-2 rounded-md underline">
-          <i className="bi bi-star-fill px-2 "></i>
+        <div className="font-family w-fit rounded-md bg-[#ebefeb] pr-2 text-black/60 underline">
+          <i className="bi bi-star-fill px-2"></i>
           重命名请写出文件后缀名
         </div>
       )}
 
-      <li className="bg-[#ebefeb]  shadow-sm py-4 rounded-2xl font-family text-black/60 sm:text-xl text-sm pl-6 flex justify-between items-center relative">
+      <li className="font-family relative flex items-center justify-between rounded-2xl bg-[#ebefeb] py-4 pl-6 text-sm text-black/60 shadow-sm sm:text-xl">
         {isEditing ? (
           <>
             <div className="flex items-center gap-3">
@@ -101,19 +102,19 @@ function FileItem({ file }) {
                 value={name}
                 ref={inputRef}
                 onChange={(e) => setName(e.target.value)}
-                className="bg-white sm:w-80  w-50 h-fit hide-scrollbar py-1 pl-2 rounded-md focus:border-[#71815b] focus:border-2 outline-none"
+                className="hide-scrollbar h-fit w-50 rounded-md bg-white py-1 pl-2 outline-none focus:border-2 focus:border-[#71815b] sm:w-70 md:w-90 lg:w-100"
               />
             </div>
 
-            <div className=" flex gap-4 mr-4 ">
+            <div className="mr-4 flex gap-4">
               <Button
                 type="changeCancel"
                 onClick={() => setIsEditing(!isEditing)}
               >
-                <i className="bi bi-x-lg sm:text-[30px] text-[20px] bg-white p-1.25 hover:bg-gray-200 rounded-md hover:transition-all hover:duration-500"></i>
+                <i className="bi bi-x-lg rounded-md p-1.25 text-[20px] sm:text-[30px]"></i>
               </Button>
               <Button type="changeConfirm" onClick={() => handleRename()}>
-                <i className="bi bi-check-square-fill text-red-300 sm:text-[40px] text-[30px]  hover:text-red-400 hover:transition-all hover:duration-500"></i>
+                <i className="bi bi-check-square-fill text-[30px] sm:text-[40px]"></i>
               </Button>
             </div>
           </>
@@ -121,7 +122,7 @@ function FileItem({ file }) {
           <>
             <div className="flex items-center gap-3">
               {file.status === "processing" && (
-                <i className="bi bi-arrow-repeat animate-spin text-3xl text-[#71815b] ml-70"></i>
+                <i className="bi bi-arrow-repeat ml-70 -translate-x-35 animate-spin text-3xl text-[#71815b] sm:-translate-x-20 md:translate-0"></i>
               )}
               {file.status === "ready" && (
                 <>
@@ -131,21 +132,23 @@ function FileItem({ file }) {
               )}
               {file.status === "error" && (
                 <>
-                  <i className="bi bi-exclamation-triangle-fill  text-3xl rounded-md p-1 text-red-400"></i>
-                  <p className="bg-white py-1 px-2  text-red-300 rounded-md">
+                  <i className="bi bi-exclamation-triangle-fill rounded-md p-1 text-3xl text-red-400"></i>
+                  <p className="rounded-md bg-white px-2 py-1 text-red-300">
                     文档处理失败，请删除后重新上传
                   </p>
                 </>
               )}
             </div>
 
-            <div className=" flex gap-4 mr-4">
-              <Button type="rename" onClick={() => setIsEditing(!isEditing)}>
-                <i className="bi bi-pencil-square cursor-pointer"></i>
-              </Button>
+            <div className="mr-4 flex gap-4">
+              {file.status === "ready" && (
+                <Button type="rename" onClick={() => setIsEditing(!isEditing)}>
+                  <i className="bi bi-pencil-square cursor-pointer"></i>
+                </Button>
+              )}
 
               <Button type="delete" onClick={() => setDelConfirm(true)}>
-                <i className="bi bi-trash2 text-white text-xl cursor-pointer"></i>
+                <i className="bi bi-trash2 cursor-pointer text-xl text-white"></i>
               </Button>
             </div>
           </>

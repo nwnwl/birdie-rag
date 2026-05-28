@@ -15,7 +15,6 @@ function File() {
   const dispatch = useDispatch();
 
   const { token } = useSelector((state) => state.user);
-
   const { files } = useSelector((state) => state.file);
 
   useEffect(() => {
@@ -32,9 +31,12 @@ function File() {
     }
   }
 
+  // 轮询，上传成功后显示新文件
   async function handleUpload({ file, token }) {
     try {
       await dispatch(upload({ file, token })).unwrap();
+
+      if (pollRef.current) clearInterval(pollRef.current);
 
       const timer = setInterval(async () => {
         const files = await dispatch(get(token)).unwrap();
@@ -58,12 +60,12 @@ function File() {
   }, []);
 
   return (
-    <div className="h-screen w-screen bg-[url('b2.jpg')] bg-cover bg-fixed bg-bottom flex justify-center items-center">
-      <div className="bg-[#eaf4e0] flex flex-col md:w-220  sm:w-160 w-130 -translate-y-8 rounded-3xl gap-10 lg:h-200 md:h-180 h-170 pl-10 pr-10 py-8">
+    <div className="flex h-screen w-screen items-center justify-center bg-[url('b2.jpg')] bg-cover bg-fixed bg-bottom">
+      <div className="flex h-170 w-130 -translate-y-8 flex-col gap-10 rounded-3xl bg-[#eaf4e0] py-8 pr-10 pl-10 sm:w-160 md:h-180 md:w-220 lg:h-200">
         <Toast />
 
-        <div className="border-b-2 border-[#8b8e73] pb-8  ">
-          <h1 className="sm:text-4xl text-3xl font-family text-[#8b8e73] mb-4 tracking-wider">
+        <div className="border-b-2 border-[#8b8e73] pb-8">
+          <h1 className="font-family mb-4 text-3xl tracking-wider text-[#8b8e73] sm:text-4xl">
             ⚙️文档管理
           </h1>
           <p className="font-family text-black/60">
@@ -72,9 +74,9 @@ function File() {
           </p>
         </div>
 
-        <div className="bg-[#fbf7f4] rounded-2xl py-5 pl-2  shadow-md">
-          <h2 className="font-family md:text-2xl text-xl  text-[#6c6e5c] flex gap-4  items-center pb-4">
-            <i className="ml-2 bi bi-upload"></i>
+        <div className="rounded-2xl bg-[#fbf7f4] py-5 pl-2 shadow-md">
+          <h2 className="font-family flex items-center gap-4 pb-4 text-xl text-[#6c6e5c] md:text-2xl">
+            <i className="bi bi-upload ml-2"></i>
             上传文档
           </h2>
 
@@ -97,23 +99,23 @@ function File() {
             type="selectFile"
             onClick={() => fileUploadRef.current.click()}
           >
-            <i className="bi bi-cloud-upload inline mr-2"></i>
+            <i className="bi bi-cloud-upload mr-2 inline"></i>
             选择文件
           </Button>
         </div>
 
-        <div className="bg-[#fbf7f4] rounded-2xl pr-10 py-5 pl-2  shadow-md h-94 overflow-y-auto hide-scrollbar">
-          <h2 className="font-family md:text-2xl text-xl text-[#6c6e5c] flex gap-4 items-center pb-4">
-            <i class="ml-2 bi bi-list-ul"></i>
+        <div className="hide-scrollbar h-94 overflow-y-auto rounded-2xl bg-[#fbf7f4] py-5 pr-10 pl-2 shadow-md">
+          <h2 className="font-family flex items-center gap-4 pb-4 text-xl text-[#6c6e5c] md:text-2xl">
+            <i className="bi bi-list-ul ml-2"></i>
             已上传文档
           </h2>
 
           <Button type="refresh" onClick={() => handlerefresh()}>
-            <i class="bi bi-arrow-repeat inline mr-2"></i>
+            <i className="bi bi-arrow-repeat mr-2 inline"></i>
             刷新列表
           </Button>
 
-          <ul className="flex flex-col pl-4 gap-4 mt-4   ">
+          <ul className="mt-4 flex flex-col gap-4 pl-4">
             {files?.map((f) => (
               <FileItem file={f} key={f.id} />
             ))}

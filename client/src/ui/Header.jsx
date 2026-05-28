@@ -7,12 +7,12 @@ function Header() {
         <span style={{ fontSize: "1em", verticalAlign: "-0.1em" }}>
           <img
             src="/favicon.ico"
-            style={{
-              width: "1.2em",
-              height: "1.2em",
-              display: "inline-block",
-              objectFit: "contain",
-            }}
+            className="
+              w-[1.2em]
+              h-[1.2em]
+              inline-block
+              object-contain
+            "
             alt="bird emoji"
           />
         </span>{" "}

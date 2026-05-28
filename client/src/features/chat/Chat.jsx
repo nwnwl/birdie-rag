@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
-import Button from '../../ui/Button';
-import Message from '../../ui/Message';
-import { useDispatch, useSelector } from 'react-redux';
-import { answerStream } from './chatSlice';
+import { useEffect, useRef, useState } from "react";
+import Button from "../../ui/Button";
+import Message from "../../ui/Message";
+import { useDispatch, useSelector } from "react-redux";
+import { answerStream } from "./chatSlice";
 
 function Chat() {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const listRef = useRef(null);
 
   const { token } = useSelector((state) => state.user);
@@ -18,26 +18,28 @@ function Chat() {
     // question
     const question = input.trim();
     if (!question) return;
-    setInput('');
+    setInput("");
 
     // answer
     await dispatch(answerStream({ question, token }));
   }
 
+  // shift + enter ：换行
   function handleOnKeyDown(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit(e);
     }
   }
 
+  // 滚动到底
   useEffect(() => {
     listRef.current.scrollTop = listRef.current.scrollHeight;
   }, [messages]);
 
   return (
-    <div className="flex flex-col flex-1 justify-around items-center h-screen w-screen bg-cover bg-center bg-fixed">
-      <div className=" border border-amber-900 p-10 lg:w-5xl lg:h-140 md:w-4xl sm:w-2xl  h-130 w-130 bg-[#F0F1E6] mt-10 rounded-4xl shadow-xl hover:shadow-2xl transition-shadow duration-300 ">
+    <div className="flex flex-col flex-1 justify-around items-center h-screen w-screen bg-cover bg-center">
+      <div className=" border border-amber-900 p-10 lg:w-5xl lg:h-140 md:w-4xl sm:w-2xl  h-130 w-130 bg-[#F0F1E6] mt-10 rounded-4xl shadow-xl hover:shadow-2xl transition-shadow duration-500 ">
         <div
           className="flex flex-col overflow-y-auto h-full hide-scrollbar gap-8  scroll-smooth"
           ref={listRef}
@@ -50,7 +52,7 @@ function Chat() {
             );
           })}
 
-          {loading && messages[messages.length - 1]?.role === 'user' && (
+          {loading && messages[messages.length - 1]?.role === "user" && (
             <div className="py-2 bg-[#c8d4b6] rounded-4xl px-4 self-start animate-bounce">
               Loading...
             </div>

@@ -1,5 +1,6 @@
 export async function getHistory({ token }) {
-  const res = await fetch('/api/chat/history', {
+  const res = await fetch("/api/chat/history", {
+    method: "GET",
     headers: { Authorization: `Bearer ${token}` },
   });
 
@@ -11,7 +12,7 @@ export async function getHistory({ token }) {
 
 export async function deleteHistory({ token, id }) {
   const res = await fetch(`/api/chat/history/${id}`, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: { Authorization: `Bearer ${token}` },
   });
 

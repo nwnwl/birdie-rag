@@ -29,9 +29,10 @@
 
 ### 加分项
 
-- [x] **流式回答** — SSE 服务端推送 + 前端 ReadableStream + requestAnimationFrame token 节流，打字机效果
+- [x] **流式回答** — SSE 服务端推送 + 前端 ReadableStream + rAF token 节流 + AbortController 防并发竞态，打字机效果
 - [x] **响应式设计** — mobile-first，sm/md/lg/xl 四层断点全适配
 - [x] **持久化** — Token 持久化自动登录
+- [x] **Prettier** — prettier-plugin-tailwindcss 保存时 class 自动排序
 
 ## 快速开始
 
@@ -111,8 +112,8 @@ RAG/
 │   │   ├── main.jsx            # 入口：Redux Provider + StrictMode
 │   │   ├── App.jsx             # 路由配置 + 自动登录
 │   │   ├── store.js            # Redux store（5个slice）
-│   │   ├── index.css           # TailwindCSS + 自定义字体 + bootstrap-icons
-│   │   ├── services/           # API 服务层
+│   │   ├── index.css           # TailwindCSS + @theme字体 + bootstrap-icons + hide-scrollbar
+│   │   ├── services/           # API 服务层（含 AbortController 并发控制）
 │   │   │   ├── apiUser.js      # 登录/注册
 │   │   │   ├── apiFile.js      # 文档 CRUD
 │   │   │   ├── apiChat.js      # 聊天 SSE 流式
@@ -126,7 +127,7 @@ RAG/
 │   │   │   ├── AppLayout.jsx   # 主布局（Header + 侧边栏 + Outlet + logout弹窗）
 │   │   │   ├── Header.jsx      # 顶部 Logo + 标题
 │   │   │   ├── Home.jsx        # 首页
-│   │   │   ├── Button.jsx      # 按钮（14种type变体）
+│   │   │   ├── Button.jsx      # 按钮（17种type变体 + 共享.btn样式）
 │   │   │   ├── Error.jsx       # 错误提示
 │   │   │   ├── Message.jsx     # 消息气泡
 │   │   │   ├── ErrorPage.jsx   # 404 页面

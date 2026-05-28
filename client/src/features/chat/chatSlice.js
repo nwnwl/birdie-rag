@@ -1,26 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAnswerStream } from "../../services/apiChat";
+import { cancelStream, getAnswerStream } from "../../services/apiChat";
 import { logout } from "../user/userSlice";
 
 const initialState = {
   messages: [],
   loading: false,
   error: null,
-  sources: [],
 };
 
 const chatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
-    loadHistory(state, action) {
-      state.messages = [
-        { role: "user", content: action.payload.question },
-        { role: "assistant", content: action.payload.answer },
-      ];
-    },
     clearMessages: () => initialState,
-
     appendTokenContext(state, action) {
       const last = state.messages[state.messages.length - 1];
 
@@ -43,8 +35,18 @@ const chatSlice = createSlice({
         state.loading = false;
       })
       .addCase(answerStream.rejected, (state, action) => {
+        if (action.error.name === "AbortError") return;
         state.loading = false;
         state.error = action.error.message;
+      })
+      .addCase(loadHistory.fulfilled, (state, action) => {
+        state.error = null;
+        state.loading = false;
+
+        state.messages = [
+          { role: "user", content: action.payload.question },
+          { role: "assistant", content: action.payload.answer },
+        ];
       })
       .addCase(logout, () => initialState);
   },
@@ -60,12 +62,18 @@ export const answerStream = createAsyncThunk(
       onToken: (tokenText) => {
         thunkAPI.dispatch(appendTokenContext(tokenText));
       },
-      onDone: () => {},
     });
   },
 );
 
-export const { loadHistory, appendTokenContext, clearMessages } =
-  chatSlice.actions;
+export const loadHistory = createAsyncThunk(
+  "chat/loadHistory",
+  async (history) => {
+    cancelStream();
+    return history;
+  },
+);
+
+export const { appendTokenContext, clearMessages } = chatSlice.actions;
 
 export default chatSlice.reducer;

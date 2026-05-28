@@ -45,39 +45,38 @@ function User() {
 
   return (
     <form
-      className="h-screen w-screen flex  bg-[url('/b2.jpg')]  bg-cover bg-bottom bg-fixed  justify-center items-start"
+      className="flex h-screen w-screen items-start justify-center bg-[url('/b2.jpg')] bg-cover bg-fixed bg-bottom"
       onSubmit={handleSubmit}
     >
       <div
-        className={`lg:h-130 md:h-125 mt-30 lg:mr-15  flex rounded-3xl bg-[#eaf4e0]/90 shadow-2xl ${isLogin ? "lg:pl-70 md:pl-60 md:pr-5 " : "md:-translate-x-5  md:pr-30"}  sm:px-15 py-0 px-10 relative transition-all duration-500 ease-in-out`}
+        className={`mt-30 flex rounded-3xl bg-[#eaf4e0]/90 shadow-2xl md:h-125 lg:mr-15 lg:h-130 ${isLogin ? "md:pr-5 md:pl-60 lg:pl-70 " : "md:-translate-x-5 md:pr-30"} relative px-10 py-0 transition-all duration-500 ease-in-out sm:px-15`}
       >
         <div
-          className={`hidden md:block ${isLogin ? "lg:pl-60 lg:pr-30  md:pl-50 md:pr-25 rounded-r-full " : "rounded-l-full translate-x-5 lg:pl-60 lg:pr-30 md:pl-50 md:pr-30 "} py-15 bg-[#C8E6C9] absolute h-full top-0 lg:-left-10  md:-left-1 transition-all duration-500  overflow-hidden `}
-          style={{ left: isLogin ? undefined : "28rem" }}
+          className={`hidden md:block ${isLogin ? "rounded-r-full md:-left-1 md:pr-25 md:pl-50 lg:-left-10 lg:pr-30 lg:pl-60" : "left-112 translate-x-5 rounded-l-full md:pr-30 md:pl-50 lg:pr-30 lg:pl-60"} absolute top-0 h-full overflow-hidden bg-[#C8E6C9] py-15 transition-all duration-500`}
         >
           <img
             src="/b5.png"
             alt="bird picture"
-            className={`lg:w-90 lg:h-125 md:w-70 md:h-100 object-cover absolute p-8 -left-1 lg:-translate-y-10 md:-translate-y-5 transition-all duration-500 ease-in-out `}
+            className={`absolute -left-3 object-cover p-8 transition-all duration-500 ease-in-out md:h-100 md:w-70 md:-translate-y-5 lg:h-125 lg:w-90 lg:-translate-y-10`}
             style={{ transform: `translateX(${isLogin ? 0 : -360}px)` }}
           />
           <img
             src="/b4.png"
             alt="bird picture"
-            className={`lg:w-90 lg:h-125 md:w-70 md:h-100 object-cover absolute p-8 left-5 lg:-translate-y-15 md:-translate-y-2  transition-all duration-500 ease-in-out `}
+            className={`absolute left-5 object-cover p-8 transition-all duration-500 ease-in-out md:h-100 md:w-70 md:-translate-y-2 lg:h-125 lg:w-90 lg:-translate-y-10`}
             style={{ transform: `translateX(${isLogin ? 360 : 0}px)` }}
           />
         </div>
 
         <div
-          className={`flex flex-col h-full ${isLogin ? "lg:pl-40 md:px-30 lg:py-10 md:py-8" : "lg:py-10 md:pl-18 md:pr-60 md:py-8"} md:px-15 pt-10 pb-12 rounded-r-3xl  `}
+          className={`flex h-full flex-col ${isLogin ? "md:px-30 md:py-8 lg:py-10 lg:pl-40" : "md:py-8 md:pr-60 md:pl-18 lg:py-10"} rounded-r-3xl pt-10 pb-12 md:px-15`}
         >
-          <h1 className="text-center font-cause text-5xl text-amber-900 p-6">
+          <h1 className="font-cause p-6 text-center text-5xl text-amber-900">
             {isLogin ? "Login" : "Register"}
           </h1>
 
-          <div className="flex flex-col ">
-            <label htmlFor="username" className="m-1 font-cause text-amber-900">
+          <div className="flex flex-col">
+            <label htmlFor="username" className="font-cause m-1 text-amber-900">
               username:
             </label>
             <input
@@ -87,10 +86,10 @@ function User() {
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="rounded-2xl border py-2 px-8 bg-white font-cause border-amber-900 focus:border-[#5C3D2E]/80 focus:border-2 outline-none"
+              className="font-cause rounded-2xl border border-amber-900 bg-white px-8 py-2 outline-none focus:border-2 focus:border-[#5C3D2E]/80"
             />
 
-            <label htmlFor="password" className="m-1 font-cause text-amber-900">
+            <label htmlFor="password" className="font-cause m-1 text-amber-900">
               password:
             </label>
             <input
@@ -100,14 +99,14 @@ function User() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="rounded-2xl border py-2 px-8 bg-white font-cause border-amber-900  focus:border-[#5C3D2E]/80 focus:border-2 outline-none"
+              className="font-cause rounded-2xl border border-amber-900 bg-white px-8 py-2 outline-none focus:border-2 focus:border-[#5C3D2E]/80"
             />
           </div>
 
-          <Error>{showError ? error : ""}</Error>
+          {showError && <Error>{error}</Error>}
           <Button type="start">{isLogin ? "Sign in" : "Sign up"}</Button>
 
-          <p className="font-cause text-amber-900 m-6 whitespace-nowrap overflow-hidden text-ellipsis">
+          <p className="font-cause m-6 overflow-hidden text-ellipsis whitespace-nowrap text-amber-900">
             <span>{isLogin ? "No account yet," : "have an account?"}</span>
             <Button onClick={() => handdleLoginStatus()} type="sign">
               {isLogin ? "Sign up!" : "Sign in!"}

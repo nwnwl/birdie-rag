@@ -1,6 +1,7 @@
-@import 'tailwindcss';
-@import '../node_modules/bootstrap-icons/font/bootstrap-icons.min.css';
+@import "tailwindcss";
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons.min.css";
 
+/* Tailwind 的基础层，样式优先级最低，可以被 utilities 层覆盖。*/
 @layer base {
   /* 让 html 和 body 都撑满视口高度 */
   html,
@@ -10,23 +11,22 @@
   }
 }
 
+.btn {
+  @apply cursor-pointer transition-colors duration-500 outline-none;
+}
+
 @theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'Roboto Mono', ui-monospace, monospace;
-  --font-rubik: 'Rubik', 'Inter', sans-serif;
-  --font-cause: 'Cause', 'Inter', sans-serif;
-  --font-family: 'ZCOOL KuaiLe', cursive;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-cause: "Cause", "Inter", sans-serif;
+  --font-family: "ZCOOL KuaiLe", cursive;
 }
 
-[contentEditable='true']:empty::before {
-  content: attr(data-placeholder);
-  color: #a8a29e;
-  pointer-events: none;
-}
-
+/* Chrome/Edge/Safari：隐藏滚动条 : */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/*  IE/Edge旧版 + Firefox：隐藏滚动条 : */
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
